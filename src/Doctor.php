@@ -5,7 +5,6 @@
         private $specialty;
         private $id;
 
-
         function __construct($name, $specialty, $id = null)
         {
             $this->name = $name;
@@ -37,5 +36,17 @@
         {
             return $this->id;
         }
+
+        function save()
+        {
+            $executed = $GLOBALS['DB']->exec("INSERT INTO doctors (name, specialty) VALUES ('{$this->getName()}', '{$this->getSpecialty()}');");
+            if ($executed) {
+                 $this->id= $GLOBALS['DB']->lastInsertId();
+                 return true;
+            } else {
+                 return false;
+            }
+        }
+
     }
 ?>

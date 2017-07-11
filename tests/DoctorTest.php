@@ -49,6 +49,35 @@
             //Assert
             $this->assertEquals($specialty, $result);
         }
+
+        function testSave()
+        {
+           //Arrange
+           $name = "Calla Rudolph, M.D.";
+           $specialty = "Heart Surgeon";
+           $test_doctor = new Doctor($name, $specialty);
+
+           //Act
+           $executed = $test_doctor->save();
+
+           // Assert
+           $this->assertTrue($executed, "Doctor not successfully saved to database");
+         }
+
+       function testGetId()
+       {
+            //Arrange
+            $name = "Calla Rudolph, M.D.";
+            $specialty = "Heart Surgeon";
+            $test_doctor = new Doctor($name, $specialty);
+            $test_doctor->save();
+
+            //Act
+            $result = $test_doctor->getId();
+
+            //Assert
+            $this->assertEquals(true, is_numeric($result));
+        }
     }
 
 ?>
