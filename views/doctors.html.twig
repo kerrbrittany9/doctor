@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>Doctors Office</title>
+  </head>
+  <body>
+    <h1>Doctors</h1>
+
+    {% if doctors is not empty %}
+      <p>Here are all your doctors:</p>
+      <ul>
+        {% for doctor in doctors %}
+            <li>{{ doctor.getName }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <form action='/doctors' method='post'>
+      <label for='name'>Doctor name</label>
+      <input id='name' name='name' type='text'>
+      <label for='specialty'>Doctor specialty</label>
+      <input id='specialty' name='specialty' type='text'>
+
+      <button type='submit'>Add doctor</button>
+    </form>
+    <form action='/delete_doctors' method='post'>
+      <button type='submit'>Clear</button>
+    </form>
+
+    <p><a href='/'>Home</a></p>
+  </body>
+</html>
