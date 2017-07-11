@@ -54,5 +54,25 @@
                 return false;
             }
         }
+
+        static function getAll()
+        {
+            $returned_patients = $GLOBALS['DB']->query("SELECT * FROM patients;");
+            $patients = array();
+            foreach($returned_patients as $patient) {
+                $patient_name = $patient['name'];
+                $patient_dob = $patient['birthday'];
+                $doctor_id = $patient['doctor_id'];
+                $patient_id = $patient['id'];
+                $new_patient = new Patient($patient_name, $patient_dob, $doctor_id, $patient_id);
+                array_push($patients, $new_patient);
+            }
+            return $patients;
+        }
+
+        static function deleteAll()
+        {
+            $GLOBALS['DB']->exec("DELETE FROM patients;");
+        }
     }
 ?>

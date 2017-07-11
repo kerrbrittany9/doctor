@@ -15,12 +15,12 @@
 
     class DoctorTest extends PHPUnit_Framework_TestCase
     {
-        //
-        // protected function tearDown()
-        // {
-        //   Doctor::deleteAll();
-        //   Patient::deleteAll();
-        // }
+
+        protected function tearDown()
+        {
+          Doctor::deleteAll();
+          Patient::deleteAll();
+        }
 
         function testGetName()
         {
@@ -78,6 +78,47 @@
             //Assert
             $this->assertEquals(true, is_numeric($result));
         }
+
+
+        function testGetAll()
+        {
+            //Arrange
+            $name = "Calla Rudolph, M.D.";
+            $specialty = "Heart Surgeon";
+            $name_2 = "Lar Bear, D.O";
+            $specialty_2 = "Nose Surgeon";
+            $test_doctor = new Doctor($name, $specialty);
+            $test_doctor->save();
+            $test_doctor_2 = new Doctor($name_2, $specialty_2);
+            $test_doctor_2->save();
+
+            //Act
+            $result = Doctor::getAll();
+
+            //Assert
+            $this->assertEquals([$test_doctor, $test_doctor_2], $result);
+        }
+
+        function testDeleteAll()
+        {
+            //Arrange
+            $name = "Calla Rudolph, M.D.";
+            $specialty = "Heart Surgeon";
+            $name_2 = "Lar Bear, D.O";
+            $specialty_2 = "Nose Surgeon";
+            $test_doctor = new Doctor($name, $specialty);
+            $test_doctor->save();
+            $test_doctor_2 = new Doctor($name_2, $specialty_2);
+            $test_doctor_2->save();
+
+            //Act
+            Doctor::deleteAll();
+            $result = Doctor::getAll();
+
+            //Assert
+            $this->assertEquals([], $result);
+        }
+
     }
 
 ?>

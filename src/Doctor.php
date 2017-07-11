@@ -48,5 +48,23 @@
             }
         }
 
+        static function getAll()
+        {
+          $returned_doctors = $GLOBALS['DB']->query("SELECT * FROM doctors;");
+          $doctors = array();
+          foreach($returned_doctors as $doctor) {
+              $name = $doctor['name'];
+              $specialty = $doctor['specialty'];
+              $id = $doctor['id'];
+              $new_doctor = new Doctor($name, $specialty, $id);
+              array_push($doctors, $new_doctor);
+          }
+          return $doctors;
+        }
+
+        static function deleteAll()
+        {
+          $GLOBALS['DB']->exec("DELETE FROM doctors;");
+        }
     }
 ?>
