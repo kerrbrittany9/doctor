@@ -119,6 +119,52 @@
             $this->assertEquals([], $result);
         }
 
+        function testFind()
+        {
+            //Arrange
+            $name = "Calla Rudolph, M.D.";
+            $specialty = "Heart Surgeon";
+            $name_2 = "Lar Bear, D.O";
+            $specialty_2 = "Nose Surgeon";
+            $test_doctor = new Doctor($name, $specialty);
+            $test_doctor->save();
+            $test_doctor_2 = new Doctor($name_2, $specialty_2);
+            $test_doctor_2->save();
+
+            //Act
+            $result = Doctor::find($test_doctor->getId());
+
+            //Assert
+            $this->assertEquals($test_doctor, $result);
+        }
+
+        function testGetPatients()
+        {
+            //Arrange
+            $name = "Calla Rudolph, M.D.";
+            $specialty = "Heart Surgeon";
+            $test_doctor = new Doctor($name, $specialty);
+            $test_doctor->save();
+
+            $test_doctor_id = $test_doctor->getId();
+
+            $patient_name = "Lar Bear";
+            $dob = "Easter";
+            $test_patient = new Patient($patient_name, $dob, $test_doctor_id);
+            $test_patient->save();
+
+            $patient_name_2 = "Meet with boss";
+            $dob_2 = "July 5";
+            $test_patient_2 = new Patient($patient_name_2, $dob_2, $test_doctor_id);
+            $test_patient_2->save();
+
+            //Act
+            $result = $test_doctor->getPatients();
+
+            //Assert
+            $this->assertEquals([$test_patient, $test_patient_2], $result);
+        }
+
     }
 
 ?>

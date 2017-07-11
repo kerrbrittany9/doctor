@@ -66,5 +66,37 @@
         {
           $GLOBALS['DB']->exec("DELETE FROM doctors;");
         }
+
+        static function find($search_id)
+      {
+          $found_doctor = null;
+          $returned_doctors = $GLOBALS['DB']->prepare("SELECT * FROM doctors WHERE id = :id");
+          $returned_doctors->bindParam(':id', $search_id, PDO::PARAM_STR);
+          $returned_doctors->execute();
+          foreach($returned_doctors as $doctor) {
+              $doctor_name = $doctor['name'];
+              $specialty = $doctor['specialty'];
+              $doctor_id = $doctor['id'];
+              if ($doctor_id == $search_id) {
+                $found_doctor = new Doctor($doctor_name, $specialty, $doctor_id);
+              }
+          }
+          return $found_doctor;
+      }
+
+        function getPatients()
+        {
+            $patients = array();
+            $returned_patients = $GLOBALS['DB']->query("SELECT * FROM patients WHERE doctor_id = {$this->getId()};");
+            foreach($returned_patients as $patient) {
+                $patient_name = $patient['name'];
+                $dob = $patient['birthday'];
+                $doctor_id = $patient['doctor_id'];
+                $patient_id = $patient['id'];
+                $new_patient = new Patient($patient_name, $dob, $doctor_id, $patient_id);
+                array_push($patients, $new_patient);
+            }
+            return $patients;
+        }
     }
 ?>

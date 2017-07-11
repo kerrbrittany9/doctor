@@ -74,5 +74,22 @@
         {
             $GLOBALS['DB']->exec("DELETE FROM patients;");
         }
+
+        static function find($search_id)
+        {
+            $returned_patients = $GLOBALS['DB']->prepare("SELECT * FROM patients WHERE id = :id");
+            $returned_patients->bindParam(':id', $search_id, PDO::PARAM_STR);
+            $returned_patients->execute();
+            foreach ($returned_patients as $patient) {
+                $patient_name = $patient['name'];
+                $patient_dob = $patient['birthday'];
+                $doctor_id = $patient['doctor_id'];
+                $patient_id = $patient['id'];
+                if ($patient_id == $search_id) {
+                    $found_patient = new Patient($patient_name, $patient_dob, $doctor_id, $patient_id);
+                }
+            }
+            return $found_patient;
+        }
     }
 ?>
