@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>Patient List</title>
+  </head>
+  <body>
+    <div class='container'>
+      <h1>Patient names:</h1>
+      {% if patients is not empty %}
+        <ul>
+          {% for patient in patients %}
+            <li>{{ patient.getName }}</li>
+            <ul>
+              <li>{{ patient.getDob }}</li>
+            </ul>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <form action='/patients' method='post'>
+        <label for='name'>Patient Name</label>
+        <input id='name' name='name' type='text'>
+        <label for='birthday'>Date of Birth</label>
+        <input id='birthday' name='birthday' type='text'>
+        <button type='submit' class='btn-success'>Add patient</button>
+      </form>
+      <form action='/delete_patients' method='post'>
+        <button type='submit' class='btn-info'>Clear</button>
+      </form>
+
+      <p><a href='/'>Home</a></p>
+    </div>
+  </body>
+</html>
